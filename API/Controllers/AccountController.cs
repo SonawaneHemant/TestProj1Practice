@@ -71,7 +71,7 @@ namespace API.Controllers
         //     return user;
         // }
 
-        [HttpPost("login")] //POST: api/account/login
+        [HttpPost("login")] //POST: api/account/loginA
         public async Task<ActionResult<UserDTo>> Login(LoginDTO loginDTO)
         {
             var user = await appDbContext.AppUsers.SingleOrDefaultAsync(x => x.Email.ToLower() == loginDTO.Email.ToLower());

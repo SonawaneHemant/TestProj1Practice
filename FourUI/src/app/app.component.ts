@@ -3,6 +3,7 @@ import { Component, inject, OnInit, signal } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { lastValueFrom } from 'rxjs';
 import { NavComponent } from "../layout/nav/nav.component";
+import { AccountService } from '../core/services/account-service.service';
 
 @Component({
   selector: 'app-root',
@@ -12,6 +13,7 @@ import { NavComponent } from "../layout/nav/nav.component";
 })
 export class AppComponent implements OnInit {
 
+  private accountService=inject(AccountService);
   private http =inject(HttpClient);//if you want to use httpClinet then you need to first provide that in app.config.ts then only you can use it here
   title = 'FourUI';
   protected members:any=[];
@@ -37,6 +39,16 @@ export class AppComponent implements OnInit {
 
     //Promise needs to await and also its a demo of how to use signal
     this.signaltest.set(await this.getMembers());
+    this.setCurrentUser();
+  }
+
+  setCurrentUser(){
+    const userString=localStorage.getItem('user');
+    if(!userString) return;
+    else{
+      const user=JSON.parse(userString);
+      this.accountService.currentUser.set(user);
+    }
   }
 
   async getMembers(){
