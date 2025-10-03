@@ -1,23 +1,27 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, inject, OnInit, signal } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { Router, RouterOutlet } from '@angular/router';
 import { lastValueFrom } from 'rxjs';
 import { NavComponent } from "../layout/nav/nav.component";
 import { AccountService } from '../core/services/account-service.service';
+import { HomeComponent } from "../features/home/home.component";
+import { User } from '../types/user';
+import { NgClass } from '@angular/common';
 
 @Component({
   selector: 'app-root',
-  imports: [NavComponent],
+  imports: [NavComponent, RouterOutlet, NgClass],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
 export class AppComponent implements OnInit {
 
   private accountService=inject(AccountService);
+  protected router=inject(Router);
   private http =inject(HttpClient);//if you want to use httpClinet then you need to first provide that in app.config.ts then only you can use it here
   title = 'FourUI';
   protected members:any=[];
-  protected signaltest=signal<any>([]);
+  protected signaltest=signal<User[]>([]);
 
   async ngOnInit() {
     
@@ -53,7 +57,7 @@ export class AppComponent implements OnInit {
 
   async getMembers(){
       try {
-        return lastValueFrom(this.http.get('https://localhost:7001/api/members'));
+        return lastValueFrom(this.http.get<User[]>('https://localhost:7001/api/members'));
     }
     catch (error) {
         console.error('Error fetching title:', error);

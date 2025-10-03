@@ -1,7 +1,20 @@
-
 <app-nav/>
 
-<div class="card bg-cyan-600 w-1/2 mx-auto p-10 mt-24 shadow-xl">
+<!-- <div [ngClass]="{'mt-24 container mx-auto': !(router.url === '/' )}">
+    <router-outlet/>
+</div> -->
+
+<!-- also use like that in new angular -->
+<div 
+[class.mt-24]="router.url !== '/'"
+[class.container]="router.url !== '/'"
+[class.mx-auto]="router.url !== '/'" >
+    <router-outlet/>
+</div>
+
+<!-- <app-home [membersFromAppComp]="signaltest()"/> -->
+
+<!-- <div class="card bg-cyan-600 w-1/2 mx-auto p-10 mt-24 shadow-xl">
   <h3 class="text-3x">{{title}}</h3>
   <ul class="list">
     @for (member of members; track member.id) {
@@ -11,11 +24,11 @@
         {{member.displayName}}
       </div>
     </li>
-    }
+    } -->
 
     <!-- <h2>Using signal </h2>
     @for (signal of signaltest(); track signal.id) {
     <li>{{signal.displayName}}</li>
     } -->
-  </ul>
-</div>
+  <!-- </ul>
+</div> -->
